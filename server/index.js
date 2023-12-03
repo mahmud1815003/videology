@@ -32,10 +32,25 @@ io.on("connect", (socket) => {
   });
 
   socket.on("sendMessage", (data) => {
-    console.log(data);
     console.log(emailToId.get(data.to));
     io.to(emailToId.get(data.to)).emit("newMessage", data);
   });
+  socket.on("accepted", (data) => {
+    console.log(data);
+    io.to(emailToId.get(data.to)).emit("accepted", data);
+  });
+  socket.on("nego:needed", (data) => {
+    console.log("nego:needed", data);
+    io.to(emailToId.get(data.to)).emit("nego:needed", { from: data.from, offer });
+  });
+
+  socket.on("nego:done", (data) => {
+    console.log('nego:done', data);
+    io.to(emailToId.get(data.to)).emit("nego:final", { from: data.from, ans });
+  });
+  socket.on("callEnd", (data) => {
+    io.to(emailToId.get(data.to)).emit("callEnd");
+  })
 });
 
 app.use(express.json());

@@ -5,6 +5,7 @@ const initialState = {
   friendList: [],
   friendEmails: [],
   videoCall: false,
+  incoming: undefined,
 };
 
 const globalSlice = createSlice({
@@ -26,8 +27,11 @@ const globalSlice = createSlice({
         state.friendEmails.push(action.payload.data.email);
       }
     },
+    setIncoming: (state, action) => {
+       state.incoming = action.payload;
+    }
   },
 });
 
 export default globalSlice;
-export const { setChatId, insertFriend, setVideoCall } = globalSlice.actions;
+export const { setChatId, insertFriend, setVideoCall, setIncoming } = globalSlice.actions;
